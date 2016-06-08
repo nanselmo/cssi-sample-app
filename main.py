@@ -49,6 +49,11 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         hello_template=current_directory.get_template("templates/hello.html")
         self.response.write(hello_template.render())
+    def post(self):
+        results_template=current_directory.get_template("templates/results.html")
+        name = self.request.get('user_name')
+        template_vars={'the_name':name}
+        self.response.write(results_template.render(template_vars))
 
 class CountHandler(webapp2.RequestHandler):
     def get(self):
@@ -57,8 +62,13 @@ class CountHandler(webapp2.RequestHandler):
 
 class PigHandler(webapp2.RequestHandler):
     def get(self):
-        #pig_template=current_directory.get_template("templates/pig.html")
-        self.response.write(pig_latinize_phrase("Hello World"))    
+        pig_template=current_directory.get_template("templates/pig.html")
+        self.response.write(pig_template.render(my_vars))
+    def post(self):
+        pig_template=current_directory.get_template("templates/pig.html")
+        new_word=pig_latinize_phrase(self.request.get("input_word"))
+        my_vars={'final_word':new_word}
+        self.response.write(pig_template.render(my_vars))
 
 
 app = webapp2.WSGIApplication([
