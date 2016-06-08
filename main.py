@@ -55,15 +55,10 @@ class MainHandler(webapp2.RequestHandler):
         template_vars={'the_name':name}
         self.response.write(results_template.render(template_vars))
 
-class CountHandler(webapp2.RequestHandler):
-    def get(self):
-        for number in range(1,11):
-            self.response.write(str(number) + " ")
-
 class PigHandler(webapp2.RequestHandler):
     def get(self):
         pig_template=current_directory.get_template("templates/pig.html")
-        self.response.write(pig_template.render(my_vars))
+        self.response.write(pig_template.render())
     def post(self):
         pig_template=current_directory.get_template("templates/pig.html")
         new_word=pig_latinize_phrase(self.request.get("input_word"))
@@ -73,6 +68,5 @@ class PigHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/count', CountHandler),
     ('/piglatin',PigHandler)
 ], debug=True)
