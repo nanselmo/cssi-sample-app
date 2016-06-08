@@ -18,6 +18,11 @@ import webapp2
 import os
 import jinja2
 
+def doSomething(old):
+    new = old.upper()
+    return(new)
+
+
 def pig_latinize_word(word):
   vowels = ["a", "e", "i", "o", "u"]
   if word[0].lower() in vowels:
@@ -51,9 +56,12 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(hello_template.render())
     def post(self):
         results_template=current_directory.get_template("templates/results.html")
-        name = self.request.get('user_name')
-        template_vars={'the_name':name}
-        self.response.write(results_template.render(template_vars))
+        the_name = self.request.get('first_name')
+        the_city = self.request.get('user_city')
+        new_name=doSomething(the_name)
+        new_city=doSomething(the_name)
+        my_dict={'loud_name':new_name, 'loud_city':new_city}
+        self.response.write(results_template.render(my_dict))
 
 class PigHandler(webapp2.RequestHandler):
     def get(self):
